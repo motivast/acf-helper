@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ACF Helper" default="build">
+
+    <property name="theme"  value="acf-helper" override="true" />
+
+    <!-- ============================================  -->
+    <!-- Target: setup:symlink                         -->
+    <!-- ============================================  -->
+    <target name="setup:symlink" description="Symlink proper directories.">
+        <echo msg="Symlink proper directories" />
+
+        <!-- ============================================  -->
+        <!-- Symlink required vendor files                 -->
+        <!-- ============================================  -->
+        <symlink target="${project.basedir}/vendor/wp-coding-standards/wpcs/WordPress" link="${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/WordPress" overwrite="true" />
+        <symlink target="${project.basedir}/vendor/wp-coding-standards/wpcs/WordPress-Core" link="${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/WordPress-Core" overwrite="true" />
+        <symlink target="${project.basedir}/vendor/wp-coding-standards/wpcs/WordPress-Docs" link="${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/WordPress-Docs" overwrite="true" />
+        <symlink target="${project.basedir}/vendor/wp-coding-standards/wpcs/WordPress-Extra" link="${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/WordPress-Extra" overwrite="true" />
+        <symlink target="${project.basedir}/vendor/wp-coding-standards/wpcs/WordPress-VIP" link="${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/WordPress-VIP" overwrite="true" />
+
+        <!-- ============================================  -->
+        <!-- Symlink theme itself to wp themes dir         -->
+        <!-- ============================================  -->
+        <symlink target="${project.basedir}" link="${project.basedir}/wordpress/wp-content/plugins/${theme}"  overwrite="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: setup:githook                         -->
+    <!-- ============================================  -->
+    <target name="setup:githook" description="Create git pre-commit hook to execute inspect task before commit.">
+        <echo msg="Create pre-commit githook" />
+
+        <exec command="mkdir -p .git/hooks; touch .git/hooks/pre-commit; echo '' > .git/hooks/pre-commit; echo '#!/bin/sh' >> .git/hooks/pre-commit; echo './vendor/bin/phing inspect' >> .git/hooks/pre-commit; chmod +x .git/hooks/pre-commit;"/>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: setup                                 -->
+    <!-- ============================================  -->
+    <target name="setup" description="Setup project. Execute setup:symlink, setup:githook.">
+      <echo msg="Setup project" />
+
+      <phingcall target="setup:symlink" />
+      <phingcall target="setup:githook" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: dotenv                                -->
+    <!-- ============================================  -->
+    <target name="dotenv" description="Load environmental variables from .env file.">
+        <echo msg="Load .env file if exists" />
+
+        <property file=".env" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: wp:db:create                          -->
+    <!-- ============================================  -->
+    <target name="wp:db:create" depends="dotenv" description="Create WordPress database.">
+        <echo msg="Create WordPress database" />
+
+        <exec command="./vendor/bin/wp db create --path=${WP_PATH}" passthru="true" checkreturn="false" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: wpremovedatabase                      -->
+    <!-- ============================================  -->
+    <target name="wp:db:drop" depends="dotenv" description="Drop WordPress database.">
+        <echo msg="Drop WordPress database" />
+
+        <exec command="./vendor/bin/wp db drop --yes --path=${WP_PATH}" passthru="true" checkreturn="false" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: wpconfig                              -->
+    <!-- ============================================  -->
+    <target name="wp:config" depends="dotenv" description="Generate WordPress wp-config.php.">
+        <echo msg="Generate WordPress wp-config.php" />
+
+        <!-- Enviroment variables are loaded by dotenv target -->
+        <exec command="./vendor/bin/wp core config --dbname=${WP_CONFIG_DB_NAME} --dbuser=${WP_CONFIG_DB_USER} --dbpass=${WP_CONFIG_DB_PASS} --dbhost=${WP_CONFIG_DB_HOST} --extra-php=${WP_CONFIG_EXTRA} --path=${WP_PATH} --skip-check --force" passthru="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: wpinstall                             -->
+    <!-- ============================================  -->
+    <target name="wp:install" depends="dotenv" description="Generate WordPress wp-config.php.">
+        <echo msg="Install WordPress" />
+
+        <exec command="./vendor/bin/wp core install --url=${WP_URL} --title=${WP_TITLE} --admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} --admin_email=${WP_ADMIN_EMAIL} --path=${WP_PATH}" passthru="true" checkreturn="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: wpplugins                             -->
+    <!-- ============================================  -->
+    <target name="wp:plugins" depends="dotenv" description="Activate installed plugins..">
+        <echo msg="Activate plugins" />
+
+        <exec command="./vendor/bin/wp plugin activate `./vendor/bin/wp plugin list --status=inactive --format=csv --path=${WP_PATH} | cut -d',' -f1 | tail -n +2 | tr '\n' ' '` --path=${WP_PATH}" passthru="true" checkreturn="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: wp:init                               -->
+    <!-- ============================================  -->
+    <target name="wp:init" description="Initialize WordPress. Execute wp:config, wp:install, wp:plugins.">
+        <echo msg="Init WordPress" />
+
+        <phingcall target="wp:config" />
+        <phingcall target="wp:install" />
+        <phingcall target="wp:plugins" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: wp:reset                              -->
+    <!-- ============================================  -->
+    <target name="wp:reset" description="Reset WordPress. Execute wp:config, wp:db:drop, wp:db:create, wp:install, wp:plugins.">
+        <echo msg="Reset WordPress" />
+
+        <phingcall target="wp:config" />
+        <phingcall target="wp:db:drop" />
+        <phingcall target="wp:db:create" />
+        <phingcall target="wp:install" />
+        <phingcall target="wp:plugins" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: lint                               -->
+    <!-- ============================================  -->
+    <target name="inspect:lint" description="Check possible syntax errors in php files using php -l command.">
+        <echo msg="Check possible syntax errors" />
+        <exec command="for i in $(find . \( -path ./vendor -o -path ./wordpress \) -prune -o -name '*.php' -print); do php -l $i; done" passthru="true" checkreturn="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: phpcs                               -->
+    <!-- ============================================  -->
+    <target name="inspect:phpcs" description="Check posible code styling errors in php files using phpcs comamnd.">
+        <echo msg="Check posible code styling errors" />
+        <exec command="./vendor/bin/phpcs ./  --extensions=php --ignore=${project.basedir}/vendor,${project.basedir}/wordpress --standard=./rules/phpcs.xml" passthru="true" checkreturn="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: phpmd                                 -->
+    <!-- ============================================  -->
+    <!-- @TODO: phpmd don't want to work with self symlinks. Scan only inc directory for now. -->
+    <target name="inspect:phpmd" description="Check posible mess in php files using phpmd comamnd.">
+        <echo msg="Check posible mess" />
+        <exec command="./vendor/bin/phpmd ./inc text ./rules/phpmd.xml" passthru="true" checkreturn="false" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: phpcpd                               -->
+    <!-- ============================================  -->
+    <target name="inspect:phpcpd" description="Check posible duplicates in php files using phpcpd comamnd.">
+        <echo msg="Check posible duplicates" />
+        <exec command="./vendor/bin/phpcpd ./ --exclude vendor --exclude wordpress" passthru="true" checkreturn="false" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: phpcbf                               -->
+    <!-- ============================================  -->
+    <target name="inspect:fix" description="Auto fix code styling errors in php files using phpcbf comamnd.">
+        <echo msg="Auto fix code styling errors" />
+        <exec command="./vendor/bin/phpcbf ./  --extensions=php --ignore=${project.basedir}/vendor,${project.basedir}/wordpress --standard=./rules/phpcs.xml" passthru="true" checkreturn="true" />
+    </target>
+
+    <target name="inspect" description="Inspect php code. Execute inspect:lint, inspect:phpcs, inspect:phpcpd, inspect:phpmd.">
+        <phingcall target="inspect:lint" />
+        <phingcall target="inspect:phpcs" />
+        <phingcall target="inspect:phpcpd" />
+        <phingcall target="inspect:phpmd" />
+    </target>
+
+    <target name="build" description="Release complete source code.">
+
+        <echo msg="Remove project symlinks" />
+        <exec command="rm ${project.basedir}/wordpress/wp-content/themes/${theme}" passthru="true" />
+
+        <echo msg="Create build directory if not exists" />
+        <exec command="mkdir -p ${project.basedir}/build" passthru="true" checkreturn="false" />
+
+        <echo msg="Clean build directory if not empty" />
+        <exec command="rm -r ${project.basedir}/build/* 2> /dev/null" passthru="true" />
+
+        <echo msg="Copy all files to build directory" />
+        <exec command="rsync -av --exclude='build' --exclude='wordpress' --exclude='node_modules' ${project.basedir}/* ${project.basedir}/build/" passthru="true" checkreturn="true" />
+
+        <echo msg="Clean build" />
+
+        <exec command="rm -r ${project.basedir}/build/rules 2> /dev/null" passthru="true" />
+
+        <exec command="rm -r ${project.basedir}/build/assets 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/gulp 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/node_modules 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/styleguide 2> /dev/null" passthru="true" />
+
+        <exec command="rm -r ${project.basedir}/build/.csscomb.js 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/.editorconfig 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/.gitignore 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/.jshintrc 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/.stylelintrc 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/bower.json 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/build.xml 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/gulpfile.js 2> /dev/null" passthru="true" />
+        <exec command="rm -r ${project.basedir}/build/package.json 2> /dev/null" passthru="true" />
+
+        <exec command="rm ${project.basedir}/build/.env 2> /dev/null" passthru="true" />
+        <exec command="rm ${project.basedir}/build/.gitignore 2> /dev/null" passthru="true" />
+        <exec command="rm ${project.basedir}/build/build.xml 2> /dev/null" passthru="true" />
+        <exec command="rm ${project.basedir}/build/composer.json 2> /dev/null" passthru="true" />
+        <exec command="rm ${project.basedir}/build/composer.lock 2> /dev/null" passthru="true" />
+        <exec command="rm ${project.basedir}/build/wp-cli.local.yml 2> /dev/null" passthru="true" />
+        <exec command="rm ${project.basedir}/build/wp-cli.local.sample.yml 2> /dev/null" passthru="true" />
+
+        <phingcall target="setup" />
+
+    </target>
+
+</project>

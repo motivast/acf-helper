@@ -1,0 +1,68 @@
+{
+    "name": "viewone/acf-helper",
+    "description": "ACF helper plugin provide helper acf functions to add programmatically acf fields.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "ViewOne Sp. z o.o.",
+            "email": "support@viewone.pl"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "advanced-custom-fields/advanced-custom-fields-pro",
+                "version": "5.5.14",
+                "type": "wordpress-plugin",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://connect.advancedcustomfields.com/index.php?p=pro&a=download"
+                },
+                "require": {
+                    "johnpbloch/wordpress": "~4",
+                    "philippbaschke/acf-pro-installer": "^1.0"
+                }
+            }
+        }
+    ],
+    "require-dev": {
+        "php": ">=5.3.0",
+        "phing/phing": "2.14.0",
+        "wp-cli/wp-cli": "1.2.1",
+        "deployer/deployer": "5.1",
+
+        "phpunit/phpunit": "5.7.21",
+
+        "squizlabs/php_codesniffer": "2.8.1",
+        "wp-coding-standards/wpcs": "0.11.0",
+        "sebastian/phpcpd": "2.0.2",
+        "pdepend/pdepend": "2.2.4",
+        "phploc/phploc": "2.1.5",
+        "phpmd/phpmd": "2.4.2",
+        "friendsofphp/php-cs-fixer": "1.11.4",
+
+        "composer/installers": "1.2.0",
+        "philippbaschke/acf-pro-installer": "1.0.2",
+        "johnpbloch/wordpress": "~4",
+        "advanced-custom-fields/advanced-custom-fields-pro": "5.5.14"
+    },
+    "extra": {
+        "installer-paths": {
+            "wordpress/wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "./vendor/bin/phing setup"
+        ],
+        "post-update-cmd": [
+            "./vendor/bin/phing setup"
+        ]
+    },
+    "config": {
+      "secure-http": false,
+      "disable-tls": true
+    }
+}

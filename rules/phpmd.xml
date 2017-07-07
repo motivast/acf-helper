@@ -1,0 +1,19 @@
+<ruleset name="name-of-your-coding-standard"
+		 xmlns="http://pmd.sf.net/ruleset/1.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+					  http://pmd.sf.net/ruleset_xml_schema.xsd"
+		 xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+	<rule ref="rulesets/codesize.xml" />
+	<rule ref="rulesets/controversial.xml/Superglobals" />
+	<rule ref="rulesets/design.xml">
+		<exclude name="NumberOfChildren" />
+	</rule>
+	<rule ref="rulesets/naming.xml/ShortVariable">
+		<properties>
+			<property name="exceptions" value="id,q,i,j,v,e,f,fp,di,ui" />
+		</properties>
+	</rule>
+	<rule ref="rulesets/unusedcode.xml" />
+</ruleset>
