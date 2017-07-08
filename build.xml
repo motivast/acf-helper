@@ -171,6 +171,22 @@
         <phingcall target="inspect:phpmd" />
     </target>
 
+    <!-- ============================================  -->
+    <!-- Target: tests:init                            -->
+    <!-- ============================================  -->
+    <target name="tests:init" depends="dotenv" description="Initialize tests dependecies using bin/install-wp-tests.sh script.">
+        <echo msg="Initialize tests" />
+        <exec command="./bin/install-wp-tests.sh ${WP_CONFIG_TEST_DB_NAME} ${WP_CONFIG_TEST_DB_USER} ${WP_CONFIG_TEST_DB_PASS} ${WP_CONFIG_TEST_DB_H}" passthru="true" checkreturn="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: tests                                 -->
+    <!-- ============================================  -->
+    <target name="tests" description="Execute tests using phpunit">
+        <echo msg="Execute tests" />
+        <exec command="./vendor/bin/phpunit" passthru="true" checkreturn="true" />
+    </target>
+
     <target name="build" description="Release complete source code.">
 
         <echo msg="Remove project symlinks" />

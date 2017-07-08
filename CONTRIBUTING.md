@@ -23,5 +23,14 @@ During installation WordPress is downloaded to wordpress directory and current d
 
 ### Setup WordPress
 ```
-./vendor/bin/phing wpinit
+./vendor/bin/phing wp:init
 ```
+
+This command will install WordPress with configuration from .env file. After installation you should be able to see frontend theme and backend administration.
+
+### Setup tests
+```
+./vendor/bin/phing tests:init
+```
+
+Initialize WordPress tests using bin/install-wp-tests.sh script. Note that you must have installed curl and svn.
