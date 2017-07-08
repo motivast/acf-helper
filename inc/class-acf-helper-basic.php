@@ -84,14 +84,14 @@ class Acf_Helper_Basic {
 		$field = wp_parse_args( $args, $field_defaults );
 
 		if ( ! is_string( $name ) ) {
-			throw \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $name parameter is not a type of string but "%s".', gettype( $name ) ) );
 		}
 
 		$field['key']  = 'field_' . $name;
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
 		}
 
 		$field['label'] = $label;
@@ -139,14 +139,14 @@ class Acf_Helper_Basic {
 		$field = wp_parse_args( $args, $field_defaults );
 
 		if ( ! is_string( $name ) ) {
-			throw \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $name parameter is not a type of string but "%s".', gettype( $name ) ) );
 		}
 
 		$field['key']  = 'field_' . $name;
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
 		}
 
 		$field['label'] = $label;
@@ -196,14 +196,14 @@ class Acf_Helper_Basic {
 		$field = wp_parse_args( $args, $field_defaults );
 
 		if ( ! is_string( $name ) ) {
-			throw \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $name parameter is not a type of string but "%s".', gettype( $name ) ) );
 		}
 
 		$field['key']  = 'field_' . $name;
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
 		}
 
 		$field['label'] = $label;
@@ -251,14 +251,14 @@ class Acf_Helper_Basic {
 		$field = wp_parse_args( $args, $field_defaults );
 
 		if ( ! is_string( $name ) ) {
-			throw \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
+			throw new \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
 		}
 
 		$field['key']  = 'field_' . $name;
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
+			throw new \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
 		}
 
 		$field['label'] = $label;
@@ -303,14 +303,14 @@ class Acf_Helper_Basic {
 		$field = wp_parse_args( $args, $field_defaults );
 
 		if ( ! is_string( $name ) ) {
-			throw \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
+			throw new \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
 		}
 
 		$field['key']  = 'field_' . $name;
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
+			throw new \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
 		}
 
 		$field['label'] = $label;
@@ -360,14 +360,14 @@ class Acf_Helper_Basic {
 		$field = wp_parse_args( $args, $field_defaults );
 
 		if ( ! is_string( $name ) ) {
-			throw \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
+			throw new \InvalidArgumentException( 'It looks like $name parameter is not a string.' );
 		}
 
 		$field['key']  = 'field_' . $name;
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
+			throw new \InvalidArgumentException( 'It looks like $label parameter is not a string.' );
 		}
 
 		$field['label'] = $label;
