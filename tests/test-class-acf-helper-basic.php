@@ -632,4 +632,128 @@ class Acf_Helper_BasicTest extends WP_UnitTestCase {
 
 		$plugin['acf-helper/basic']->get_acf_url_field( 'foo', 1 );
 	}
+
+	/**
+	 * Testing get_acf_password_field
+	 */
+
+	/**
+	 * Test if getting acf password field return expected results
+	 */
+	function test_get_acf_password_field() {
+
+		$plugin = acf_helper();
+
+		$expected = array(
+			'key' => 'field_foo',
+			'label' => 'Foo',
+			'name' => 'foo',
+			'type' => 'password',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		);
+
+		$expected_filled = array(
+			'key' => 'field_bar',
+			'label' => 'Bar',
+			'name' => 'bar',
+			'type' => 'password',
+			'instructions' => 'Some password instructions',
+			'required' => 1,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '50%',
+				'class' => 'password',
+				'id' => 'bar_password',
+			),
+			'placeholder' => 'Type some password',
+			'prepend' => '*',
+			'append' => '$',
+			'readonly' => 1,
+			'disabled' => 1,
+		);
+
+		$field		  = $plugin['acf-helper/basic']->get_acf_password_field( 'foo', 'Foo' );
+		$field_filled = $plugin['acf-helper/basic']->get_acf_password_field( 'bar', 'Bar', array(
+			'instructions' => 'Some password instructions',
+			'required' => 1,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '50%',
+				'class' => 'password',
+				'id' => 'bar_password',
+			),
+			'placeholder' => 'Type some password',
+			'prepend' => '*',
+			'append' => '$',
+			'readonly' => 1,
+			'disabled' => 1,
+		) );
+
+		$this->assertEquals( $field, $expected );
+		$this->assertEquals( $field_filled, $expected_filled );
+	}
+
+	/**
+	 * Test if getting acf password with null as $name value throw expected exception
+	 */
+	function test_get_acf_password_field_throwing_exception_when_name_is_null() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $name parameter is not a type of string but "NULL".' );
+
+		$plugin['acf-helper/basic']->get_acf_password_field( null, 'Foo' );
+	}
+
+	/**
+	 * Test if getting acf password with integer as $name value throw expected exception
+	 */
+	function test_get_acf_password_field_throwing_exception_when_name_is_integer() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $name parameter is not a type of string but "integer".' );
+
+		$plugin['acf-helper/basic']->get_acf_password_field( 1, 'Foo' );
+	}
+
+	/**
+	 * Test if getting acf password with null as $label value throw expected exception
+	 */
+	function test_get_acf_password_field_throwing_exception_when_label_is_null() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $label parameter is not a type of string but "NULL".' );
+
+		$plugin['acf-helper/basic']->get_acf_password_field( 'foo', null );
+	}
+
+	/**
+	 * Test if getting acf password with integer as $label value throw expected exception
+	 */
+	function test_get_acf_password_field_throwing_exception_when_label_is_integer() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $label parameter is not a type of string but "integer".' );
+
+		$plugin['acf-helper/basic']->get_acf_password_field( 'foo', 1 );
+	}
 }
