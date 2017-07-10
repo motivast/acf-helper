@@ -126,7 +126,7 @@
     <!-- ============================================  -->
     <!-- Target: lint                               -->
     <!-- ============================================  -->
-    <target name="inspect:lint" description="Check possible syntax errors in php files using php -l command.">
+    <target name="inspect:lint" description="Check possible syntax errors in php files using php -l command." depends="setup:symlink">
         <echo msg="Check possible syntax errors" />
         <exec command="for i in $(find . \( -path ./vendor -o -path ./wordpress \) -prune -o -name '*.php' -print); do php -l $i; done" passthru="true" checkreturn="true" />
     </target>
@@ -134,7 +134,7 @@
     <!-- ============================================  -->
     <!-- Target: phpcs                               -->
     <!-- ============================================  -->
-    <target name="inspect:phpcs" description="Check posible code styling errors in php files using phpcs comamnd.">
+    <target name="inspect:phpcs" description="Check posible code styling errors in php files using phpcs comamnd." depends="setup:symlink">
         <echo msg="Check posible code styling errors" />
         <exec command="./vendor/bin/phpcs ./  --extensions=php --ignore=${project.basedir}/vendor,${project.basedir}/wordpress --standard=./rules/phpcs.xml" passthru="true" checkreturn="true" />
     </target>
@@ -143,7 +143,7 @@
     <!-- Target: phpmd                                 -->
     <!-- ============================================  -->
     <!-- @TODO: phpmd don't want to work with self symlinks. Scan only inc directory for now. -->
-    <target name="inspect:phpmd" description="Check posible mess in php files using phpmd comamnd.">
+    <target name="inspect:phpmd" description="Check posible mess in php files using phpmd comamnd." depends="setup:symlink">
         <echo msg="Check posible mess" />
         <exec command="./vendor/bin/phpmd ./inc text ./rules/phpmd.xml" passthru="true" checkreturn="false" />
     </target>
@@ -151,7 +151,7 @@
     <!-- ============================================  -->
     <!-- Target: phpcpd                               -->
     <!-- ============================================  -->
-    <target name="inspect:phpcpd" description="Check posible duplicates in php files using phpcpd comamnd.">
+    <target name="inspect:phpcpd" description="Check posible duplicates in php files using phpcpd comamnd." depends="setup:symlink">
         <echo msg="Check posible duplicates" />
         <exec command="./vendor/bin/phpcpd ./ --exclude vendor --exclude wordpress" passthru="true" checkreturn="false" />
     </target>
@@ -159,16 +159,12 @@
     <!-- ============================================  -->
     <!-- Target: phpcbf                               -->
     <!-- ============================================  -->
-    <target name="inspect:fix" description="Auto fix code styling errors in php files using phpcbf comamnd.">
+    <target name="inspect:fix" description="Auto fix code styling errors in php files using phpcbf comamnd." depends="setup:symlink">
         <echo msg="Auto fix code styling errors" />
         <exec command="./vendor/bin/phpcbf ./  --extensions=php --ignore=${project.basedir}/vendor,${project.basedir}/wordpress --standard=./rules/phpcs.xml" passthru="true" checkreturn="true" />
     </target>
 
-    <target name="inspect" description="Inspect php code. Execute inspect:lint, inspect:phpcs, inspect:phpcpd, inspect:phpmd.">
-        <phingcall target="inspect:lint" />
-        <phingcall target="inspect:phpcs" />
-        <phingcall target="inspect:phpcpd" />
-        <phingcall target="inspect:phpmd" />
+    <target name="inspect" description="Inspect php code. Execute inspect:lint, inspect:phpcs, inspect:phpcpd, inspect:phpmd." depends="inspect:lint, inspect:phpcs, inspect:phpcpd, inspect:phpmd">
     </target>
 
     <!-- ============================================  -->
