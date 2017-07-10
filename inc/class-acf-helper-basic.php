@@ -55,8 +55,8 @@ class Acf_Helper_Basic {
 	 *
 	 * @return array Acf text field
 	 *
-	 * @throws InvalidArgumentException Throw exception if $name or $label are
-	 * 									not string.
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
 	 */
 	public function get_acf_text_field( $name, $label, $args = array() ) {
 
@@ -91,7 +91,7 @@ class Acf_Helper_Basic {
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
 		}
 
 		$field['label'] = $label;
@@ -110,8 +110,8 @@ class Acf_Helper_Basic {
 	 *
 	 * @return array Acf textarea field
 	 *
-	 * @throws InvalidArgumentException Throw exception if $name or $label are
-	 * 									not string.
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
 	 */
 	public function get_acf_textarea_field( $name, $label, $args = array() ) {
 
@@ -146,7 +146,7 @@ class Acf_Helper_Basic {
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
 		}
 
 		$field['label'] = $label;
@@ -165,8 +165,8 @@ class Acf_Helper_Basic {
 	 *
 	 * @return array Acf number field
 	 *
-	 * @throws InvalidArgumentException Throw exception if $name or $label are
-	 * 									not string.
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
 	 */
 	public function get_acf_number_field( $name, $label, $args = array() ) {
 
@@ -203,7 +203,7 @@ class Acf_Helper_Basic {
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
 		}
 
 		$field['label'] = $label;
@@ -222,8 +222,8 @@ class Acf_Helper_Basic {
 	 *
 	 * @return array Acf email field
 	 *
-	 * @throws InvalidArgumentException Throw exception if $name or $label are
-	 * 									not string.
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
 	 */
 	public function get_acf_email_field( $name, $label, $args = array() ) {
 
@@ -258,7 +258,7 @@ class Acf_Helper_Basic {
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
 		}
 
 		$field['label'] = $label;
@@ -277,8 +277,8 @@ class Acf_Helper_Basic {
 	 *
 	 * @return array Acf url field
 	 *
-	 * @throws InvalidArgumentException Throw exception if $name or $label are
-	 * 									not string.
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
 	 */
 	public function get_acf_url_field( $name, $label, $args = array() ) {
 
@@ -310,7 +310,7 @@ class Acf_Helper_Basic {
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
 		}
 
 		$field['label'] = $label;
@@ -331,8 +331,8 @@ class Acf_Helper_Basic {
 	 *
 	 * @return array Acf url field
 	 *
-	 * @throws InvalidArgumentException Throw exception if $name or $label are
-	 * 									not string.
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
 	 */
 	public function get_acf_password_field( $name, $label, $args = array() ) {
 
@@ -367,7 +367,7 @@ class Acf_Helper_Basic {
 		$field['name'] = $name;
 
 		if ( ! is_string( $label ) ) {
-			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label) ) );
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
 		}
 
 		$field['label'] = $label;
