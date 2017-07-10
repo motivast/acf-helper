@@ -8,7 +8,7 @@
 /**
  * Sample test case.
  */
-class Acf_Helper_BasicTest extends WP_UnitTestCase {
+class Acf_Helper_Basic_Test extends WP_UnitTestCase {
 
 	/**
 	 * Testing get_acf_text_field
