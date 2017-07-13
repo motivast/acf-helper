@@ -44,6 +44,7 @@ tests:5.6:
   script:
     # Install all project dependencies
     - composer install --ignore-platform-reqs
+    - ./bin/env.sh
     - ./vendor/bin/phing tests:db:create tests:config tests
 
 tests:7.0:
