@@ -51,6 +51,9 @@
         <echo msg="Load .env file if exists" />
 
         <property file=".env" />
+
+        <resolvepath propertyName="WP_PATH" file="${WP_PATH}"/>
+        <resolvepath propertyName="WP_TESTS_LIB_PATH" file="${WP_TESTS_LIB_PATH}"/>
     </target>
 
     <!-- ============================================  -->
@@ -168,20 +171,68 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- Target: tests:init                            -->
+    <!-- Target: tests:db:create                       -->
     <!-- ============================================  -->
-    <target name="tests:init" depends="dotenv" description="Initialize tests dependecies using bin/install-wp-tests.sh script.">
-        <echo msg="Initialize tests" />
-        <exec command="./bin/install-wp-tests.sh ${WP_CONFIG_TEST_DB_NAME} ${WP_CONFIG_TEST_DB_USER} ${WP_CONFIG_TEST_DB_PASS} ${WP_CONFIG_TEST_DB_H}" passthru="true" checkreturn="true" />
+    <target name="tests:db:create" depends="dotenv" description="Create WordPress database for tests.">
+
+        <echo msg="Create new config with credentials for tests database" />
+        <exec command="./vendor/bin/wp core config --dbname=${WP_TESTS_CONFIG_DB_NAME} --dbuser=${WP_TESTS_CONFIG_DB_USER} --dbpass=${WP_TESTS_CONFIG_DB_PASS} --dbhost=${WP_TESTS_CONFIG_DB_HOST} --path=${WP_PATH} --skip-check --force" passthru="true" />
+
+        <echo msg="Create db for tests" />
+        <phingcall target="wp:db:create" />
+
+        <echo msg="Restore original config" />
+        <phingcall target="wp:config" />
+
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: tests:db:drop                         -->
+    <!-- ============================================  -->
+    <target name="tests:db:drop" depends="dotenv" description="Drop WordPress database for tests.">
+
+        <echo msg="Create new config with credentials for tests database" />
+        <exec command="./vendor/bin/wp core config --dbname=${WP_TESTS_CONFIG_DB_NAME} --dbuser=${WP_TESTS_CONFIG_DB_USER} --dbpass=${WP_TESTS_CONFIG_DB_PASS} --dbhost=${WP_TESTS_CONFIG_DB_HOST} --path=${WP_PATH} --skip-check --force" passthru="true" />
+
+        <echo msg="Drop db for tests" />
+        <phingcall target="wp:db:drop" />
+
+        <echo msg="Restore original config" />
+        <phingcall target="wp:config" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: tests:config                            -->
+    <!-- ============================================  -->
+    <target name="tests:config" depends="dotenv" description="Copy wp-tests-config.php from tests dir to wp tests lib directory and replace credentials.">
+        <echo msg="Copy wp-tests-config.php" />
+
+        <copy file="./tests/wp-tests-config.php" tofile="${WP_TESTS_LIB_PATH}/wp-tests-config.php" overwrite="true">
+            <filterchain>
+                <replaceregexp>
+                    <regexp pattern="WP_PATH" replace="'${WP_PATH}/'"/>
+                    <regexp pattern="WP_TESTS_CONFIG_DB_NAME" replace="'${WP_TESTS_CONFIG_DB_NAME}'"/>
+                    <regexp pattern="WP_TESTS_CONFIG_DB_USER" replace="'${WP_TESTS_CONFIG_DB_USER}'"/>
+                    <regexp pattern="WP_TESTS_CONFIG_DB_PASS" replace="'${WP_TESTS_CONFIG_DB_PASS}'"/>
+                    <regexp pattern="WP_TESTS_CONFIG_DB_HOST" replace="'${WP_TESTS_CONFIG_DB_HOST}'"/>
+                </replaceregexp>
+            </filterchain>
+        </copy>
+
     </target>
 
     <!-- ============================================  -->
     <!-- Target: tests                                 -->
     <!-- ============================================  -->
-    <target name="tests" description="Execute tests using phpunit">
+    <target name="tests:phpunit" depends="dotenv" description="Execute tests using phpunit">
         <echo msg="Execute tests" />
         <exec command="./vendor/bin/phpunit" passthru="true" checkreturn="true" />
     </target>
+
+    <!-- ============================================  -->
+    <!-- Target: tests                                 -->
+    <!-- ============================================  -->
+    <target name="tests" depends="dotenv, tests:phpunit" description="Execute unit tests. Execute tests:config, tests:phpunit."></target>
 
     <target name="build" description="Release complete source code.">
 
