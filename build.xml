@@ -179,10 +179,10 @@
         <exec command="./vendor/bin/wp core config --dbname=${WP_TESTS_CONFIG_DB_NAME} --dbuser=${WP_TESTS_CONFIG_DB_USER} --dbpass=${WP_TESTS_CONFIG_DB_PASS} --dbhost=${WP_TESTS_CONFIG_DB_HOST} --path=${WP_PATH} --allow-root --skip-check --force" passthru="true" />
 
         <echo msg="Create db for tests" />
-        <phingcall target="wp:db:create" />
+        <exec command="./vendor/bin/wp db create --path=${WP_PATH} --allow-root" passthru="true" checkreturn="false" />
 
         <echo msg="Restore original config" />
-        <phingcall target="wp:config" />
+        <exec command="./vendor/bin/wp core config --dbname=${WP_CONFIG_DB_NAME} --dbuser=${WP_CONFIG_DB_USER} --dbpass=${WP_CONFIG_DB_PASS} --dbhost=${WP_CONFIG_DB_HOST} --path=${WP_PATH} --allow-root --skip-check --force" passthru="true" />
 
     </target>
 
