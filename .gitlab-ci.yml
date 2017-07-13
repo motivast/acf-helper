@@ -12,9 +12,19 @@ before_script:
   - apt-get update -yqq
   - apt-get -o dir::cache::archives="$APT_CACHE_DIR" install git subversion zip unzip -yqq
 
+  # Install mysql driver
+  - docker-php-ext-install pdo_mysql
+
   # Install composer
   - curl -sS https://getcomposer.org/installer | php
   - mv composer.phar /usr/local/bin/composer
+
+services:
+  - mysql
+
+variables:
+  # Configure mysql service (https://hub.docker.com/_/mysql/)
+  MYSQL_ROOT_PASSWORD: viewone99
 
 stages:
   - inspect
@@ -34,8 +44,7 @@ tests:5.6:
   script:
     # Install all project dependencies
     - composer install --ignore-platform-reqs
-    - ./vendor/bin/phing tests:init
-    - ./vendor/bin/phing tests
+    - ./vendor/bin/phing tests:db:create tests:config tests
 
 tests:7.0:
   image: php:7.0
@@ -43,8 +52,7 @@ tests:7.0:
   script:
     # Install all project dependencies
     - composer install --ignore-platform-reqs
-    - ./vendor/bin/phing tests:init
-    - ./vendor/bin/phing tests
+    - ./vendor/bin/phing tests:db:create tests:config tests
 
 tests:7.1:
   image: php:7.1
@@ -52,5 +60,4 @@ tests:7.1:
   script:
     # Install all project dependencies
     - composer install --ignore-platform-reqs
-    - ./vendor/bin/phing tests:init
-    - ./vendor/bin/phing tests
+    - ./vendor/bin/phing tests:db:create tests:config tests
