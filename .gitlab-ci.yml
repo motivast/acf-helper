@@ -4,6 +4,7 @@ cache:
   paths:
   - apt-cache/
   - vendor/
+  - wordpress/
 
 before_script:
 
@@ -19,6 +20,8 @@ before_script:
   - curl -sS https://getcomposer.org/installer | php
   - mv composer.phar /usr/local/bin/composer
 
+  - ./bin/env.sh
+
 services:
   - mysql
 
@@ -27,38 +30,38 @@ variables:
   MYSQL_ROOT_PASSWORD: viewone99
 
 stages:
+  - build
   - inspect
   - tests
+
+build:
+  image: php:7.0
+  stage: build
+  script:
+    # Install all project dependencies
+    - composer install --ignore-platform-reqs
 
 inspect:
   image: php:7.0
   stage: inspect
   script:
     # Install all project dependencies
-    - composer install --ignore-platform-reqs
     - ./vendor/bin/phing inspect
 
 tests:5.6:
   image: php:5.6
   stage: tests
   script:
-    # Install all project dependencies
-    - composer install --ignore-platform-reqs
-    - ./bin/env.sh
     - ./vendor/bin/phing tests:db:create tests:config tests
 
 tests:7.0:
   image: php:7.0
   stage: tests
   script:
-    # Install all project dependencies
-    - composer install --ignore-platform-reqs
     - ./vendor/bin/phing tests:db:create tests:config tests
 
 tests:7.1:
   image: php:7.1
   stage: tests
   script:
-    # Install all project dependencies
-    - composer install --ignore-platform-reqs
     - ./vendor/bin/phing tests:db:create tests:config tests
