@@ -5,6 +5,7 @@ cache:
   - apt-cache/
   - vendor/
   - wordpress/
+  - .env
 
 before_script:
 
@@ -19,8 +20,6 @@ before_script:
   # Install composer
   - curl -sS https://getcomposer.org/installer | php
   - mv composer.phar /usr/local/bin/composer
-
-  - ./bin/env.sh
 
 services:
   - mysql
@@ -39,6 +38,7 @@ build:
   stage: build
   script:
     # Install all project dependencies
+    - ./bin/env.sh
     - composer install --ignore-platform-reqs
 
 inspect:
