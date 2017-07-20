@@ -434,4 +434,128 @@ class Acf_Helper_Choice_Test extends WP_UnitTestCase {
 
 		$plugin['acf-helper/choice']->get_acf_radio_field( 'bar', 1 );
 	}
+
+	/**
+	 * Testing get_acf_true_false_field
+	 */
+
+	/**
+	 * Test if getting acf true_false field return expected results
+	 */
+	function test_get_acf_true_false_field() {
+
+		$plugin = acf_helper();
+
+		$expected = array(
+			'key' => 'field_foo',
+			'label' => 'Foo',
+			'name' => 'foo',
+			'type' => 'true_false',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '',
+			'default_value' => 0,
+			'ui' => 0,
+			'ui_on_text' => '',
+			'ui_off_text' => '',
+		);
+
+		$expected_filled = array(
+			'key' => 'field_bar',
+			'label' => 'Bar',
+			'name' => 'bar',
+			'type' => 'true_false',
+			'instructions' => 'Check box if true',
+			'required' => 1,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '50%',
+				'class' => 'true_false',
+				'id' => 'bar_true_false',
+			),
+			'message' => 'Check box if true',
+			'default_value' => 1,
+			'ui' => 1,
+			'ui_on_text' => 'Yes',
+			'ui_off_text' => 'No',
+		);
+
+		$field 		  = $plugin['acf-helper/choice']->get_acf_true_false_field( 'foo', 'Foo' );
+		$field_filled = $plugin['acf-helper/choice']->get_acf_true_false_field( 'bar', 'Bar', array(
+			'instructions' => 'Check box if true',
+			'required' => 1,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '50%',
+				'class' => 'true_false',
+				'id' => 'bar_true_false',
+			),
+			'message' => 'Check box if true',
+			'default_value' => 1,
+			'ui' => 1,
+			'ui_on_text' => 'Yes',
+			'ui_off_text' => 'No',
+		) );
+
+		$this->assertEquals( $field, $expected );
+		$this->assertEquals( $field_filled, $expected_filled );
+	}
+
+	/**
+	 * Test if getting acf true_false with null as $name value throw expected exception
+	 */
+	function test_get_acf_true_false_field_throwing_exception_when_name_is_null() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $name parameter is not a type of string but "NULL".' );
+
+		$plugin['acf-helper/choice']->get_acf_true_false_field( null, 'Foo' );
+	}
+
+	/**
+	 * Test if getting acf true_false with integer as $name value throw expected exception
+	 */
+	function test_get_acf_true_false_field_throwing_exception_when_name_is_integer() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $name parameter is not a type of string but "integer".' );
+
+		$plugin['acf-helper/choice']->get_acf_true_false_field( 1, 'Foo' );
+	}
+
+	/**
+	 * Test if getting acf true_false with null as $label value throw expected exception
+	 */
+	function test_get_acf_true_false_field_throwing_exception_when_label_is_null() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $label parameter is not a type of string but "NULL".' );
+
+		$plugin['acf-helper/choice']->get_acf_true_false_field( 'bar', null );
+	}
+
+	/**
+	 * Test if getting acf true_false with integer as $label value throw expected exception
+	 */
+	function test_get_acf_true_false_field_throwing_exception_when_label_is_integer() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $label parameter is not a type of string but "integer".' );
+
+		$plugin['acf-helper/choice']->get_acf_true_false_field( 'bar', 1 );
+	}
 }
