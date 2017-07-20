@@ -102,4 +102,60 @@ class Acf_Helper_Choice {
 
 		return $field;
 	}
+
+	/**
+	 * Get acf checkbox field
+	 *
+	 * Helper function for retrieving acf checkbox field.
+	 *
+	 * @param string $name Field name used as key and name.
+	 * @param string $label Field label displayed at the admin.
+	 * @param array  $args Additional arguments which extend defaults.
+	 *
+	 * @return array Acf checkbox field
+	 *
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
+	 */
+	public function get_acf_checkbox_field( $name, $label, $args = array() ) {
+
+		$field_defaults = array(
+			'key' => '',
+			'label' => '',
+			'name' => '',
+			'type' => 'checkbox',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'choices' => array(),
+			'allow_custom' => 0,
+			'save_custom' => 0,
+			'default_value' => array(),
+			'layout' => 'vertical',
+			'toggle' => 0,
+			'return_format' => 'value',
+		);
+
+		$field = wp_parse_args( $args, $field_defaults );
+
+		if ( ! is_string( $name ) ) {
+			throw new \InvalidArgumentException( sprintf( 'It looks like $name parameter is not a type of string but "%s".', gettype( $name ) ) );
+		}
+
+		$field['key']  = 'field_' . $name;
+		$field['name'] = $name;
+
+		if ( ! is_string( $label ) ) {
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
+		}
+
+		$field['label'] = $label;
+
+		return $field;
+	}
 }
