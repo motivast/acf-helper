@@ -263,4 +263,64 @@ class Acf_Helper_Content {
 
 		return $field;
 	}
+
+	/**
+	 * Get acf gallery field
+	 *
+	 * Helper function for retrieving acf gallery field.
+	 *
+	 * @param string $name Field name used as key and name.
+	 * @param string $label Field label displayed at the admin.
+	 * @param array  $args Additional arguments which extend defaults.
+	 *
+	 * @return array Acf gallery field
+	 *
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
+	 */
+	public function get_acf_gallery_field( $name, $label, $args = array() ) {
+
+		$field_defaults = array(
+			'key' => '',
+			'label' => '',
+			'name' => '',
+			'type' => 'gallery',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'min' => '',
+			'max' => '',
+			'insert' => 'append',
+			'library' => 'all',
+			'min_width' => '',
+			'min_height' => '',
+			'min_size' => '',
+			'max_width' => '',
+			'max_height' => '',
+			'max_size' => '',
+			'mime_types' => '',
+		);
+
+		$field = wp_parse_args( $args, $field_defaults );
+
+		if ( ! is_string( $name ) ) {
+			throw new \InvalidArgumentException( sprintf( 'It looks like $name parameter is not a type of string but "%s".', gettype( $name ) ) );
+		}
+
+		$field['key']  = 'field_' . $name;
+		$field['name'] = $name;
+
+		if ( ! is_string( $label ) ) {
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
+		}
+
+		$field['label'] = $label;
+
+		return $field;
+	}
 }
