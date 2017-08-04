@@ -100,12 +100,12 @@ class Acf_Helper extends ACF_Helper_Container {
 		 * Require choice acf helper functions
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'inc/class-acf-helper-choice.php';
-        
-        /**
-         * Require relational acf helper functions
+
+		/**
+		 * Require relational acf helper functions
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'inc/class-acf-helper-relational.php';
-		
+
 		/**
 		 * Require jquery acf helper functions
 		 */
