@@ -276,4 +276,154 @@ class Acf_Helper_Relational_Test extends WP_UnitTestCase {
 
 		$plugin['acf-helper/relational']->get_acf_page_link_field( 'bar', 1.10 );
 	}
+
+	/**
+	 * Testing get_acf_relationship_field
+	 */
+
+	/**
+	 * Test if getting acf relationship field return expected results
+	 */
+	function test_get_acf_relationship_field() {
+
+		$plugin = acf_helper();
+
+		$expected = array(
+			'key' => 'field_foo',
+			'label' => 'Foo',
+			'name' => 'foo',
+			'type' => 'relationship',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'post_type' => array(),
+			'taxonomy' => array(),
+			'filters' => array(
+				0 => 'search',
+				1 => 'post_type',
+				2 => 'taxonomy',
+			),
+			'elements' => '',
+			'min' => '',
+			'max' => '',
+			'return_format' => 'object',
+		);
+
+		$expected_filled = array(
+			'key' => 'field_bar',
+			'label' => 'Bar',
+			'name' => 'bar',
+			'type' => 'relationship',
+			'instructions' => 'Choose some posts',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '50%',
+				'class' => 'relationship',
+				'id' => 'bar_relationship',
+			),
+			'post_type' => array(
+				'page'
+			),
+			'taxonomy' => array(
+				'category'
+			),
+			'filters' => array(
+				0 => 'search',
+			),
+			'elements' => array(
+				'featured_image'
+			),
+			'min' => 10,
+			'max' => 20,
+			'return_format' => 'id',
+		);
+
+		$field 		  = $plugin['acf-helper/relational']->get_acf_relationship_field( 'foo', 'Foo' );
+		$field_filled = $plugin['acf-helper/relational']->get_acf_relationship_field( 'bar', 'Bar', array(
+			'instructions' => 'Choose some posts',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '50%',
+				'class' => 'relationship',
+				'id' => 'bar_relationship',
+			),
+			'post_type' => array(
+				'page'
+			),
+			'taxonomy' => array(
+				'category'
+			),
+			'filters' => array(
+				0 => 'search',
+			),
+			'elements' => array(
+				'featured_image'
+			),
+			'min' => 10,
+			'max' => 20,
+			'return_format' => 'id',
+		) );
+
+		$this->assertEquals( $field, $expected );
+		$this->assertEquals( $field_filled, $expected_filled );
+	}
+
+	/**
+	 * Test if getting acf relationship with null as $name value throw expected exception
+	 */
+	function test_get_acf_relationship_field_throwing_exception_when_name_is_null() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $name parameter is not a type of string but "NULL".' );
+
+		$plugin['acf-helper/relational']->get_acf_relationship_field( null, 'Foo' );
+	}
+
+	/**
+	 * Test if getting acf relationship with integer as $name value throw expected exception
+	 */
+	function test_get_acf_relationship_field_throwing_exception_when_name_is_integer() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $name parameter is not a type of string but "integer".' );
+
+		$plugin['acf-helper/relational']->get_acf_relationship_field( 1, 'Foo' );
+	}
+
+	/**
+	 * Test if getting acf relationship with null as $label value throw expected exception
+	 */
+	function test_get_acf_relationship_field_throwing_exception_when_label_is_null() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $label parameter is not a type of string but "NULL".' );
+
+		$plugin['acf-helper/relational']->get_acf_relationship_field( 'bar', null );
+	}
+
+	/**
+	 * Test if getting acf relationship with integer as $label value throw expected exception
+	 */
+	function test_get_acf_relationship_field_throwing_exception_when_label_is_integer() {
+
+		$plugin = acf_helper();
+
+		$this->expectException( \InvalidArgumentException::class );
+		$this->expectExceptionMessage( 'It looks like $label parameter is not a type of string but "double".' );
+
+		$plugin['acf-helper/relational']->get_acf_relationship_field( 'bar', 1.10 );
+	}
 }

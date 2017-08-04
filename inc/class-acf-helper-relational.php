@@ -154,4 +154,64 @@ class Acf_Helper_Relational {
 
 		return $field;
 	}
+
+	/**
+	 * Get acf relationship field
+	 *
+	 * Helper function for retrieving acf relationship field.
+	 *
+	 * @param string $name Field name used as key and name.
+	 * @param string $label Field label displayed at the admin.
+	 * @param array  $args Additional arguments which extend defaults.
+	 *
+	 * @return array Acf relationship field
+	 *
+	 * @throws \InvalidArgumentException Throw exception if $name or $label are
+	 * 									 not string.
+	 */
+	public function get_acf_relationship_field( $name, $label, $args = array() ) {
+
+		$field_defaults = array(
+			'key' => '',
+			'label' => '',
+			'name' => '',
+			'type' => 'relationship',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'post_type' => array(),
+			'taxonomy' => array(),
+			'filters' => array(
+				0 => 'search',
+				1 => 'post_type',
+				2 => 'taxonomy',
+			),
+			'elements' => '',
+			'min' => '',
+			'max' => '',
+			'return_format' => 'object',
+		);
+
+		$field = wp_parse_args( $args, $field_defaults );
+
+		if ( ! is_string( $name ) ) {
+			throw new \InvalidArgumentException( sprintf( 'It looks like $name parameter is not a type of string but "%s".', gettype( $name ) ) );
+		}
+
+		$field['key']  = 'field_' . $name;
+		$field['name'] = $name;
+
+		if ( ! is_string( $label ) ) {
+			throw new \InvalidArgumentException( sprintf( 'It looks like $label parameter is not a type of string but "%s".', gettype( $label ) ) );
+		}
+
+		$field['label'] = $label;
+
+		return $field;
+	}
 }
