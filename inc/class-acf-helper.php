@@ -101,9 +101,15 @@ class Acf_Helper extends ACF_Helper_Container {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'inc/class-acf-helper-choice.php';
 
+		/**
+		 * Require choice acf helper functions
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'inc/class-acf-helper-jquery.php';
+
 		$this['acf-helper/basic']   = new Acf_Helper_Basic( $this );
 		$this['acf-helper/content'] = new Acf_Helper_Content( $this );
 		$this['acf-helper/choice']  = new Acf_Helper_Choice( $this );
+		$this['acf-helper/jquery']  = new Acf_Helper_JQuery( $this );
 
 	}
 }
