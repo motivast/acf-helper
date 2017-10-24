@@ -23,7 +23,7 @@ before_script:
 
 variables:
   # Configure mysql service (https://hub.docker.com/_/mysql/)
-  MYSQL_ROOT_PASSWORD: viewone99
+  MYSQL_ROOT_PASSWORD: motivast99
 
 stages:
   - build

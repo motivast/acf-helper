@@ -5,7 +5,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       http://viewone.pl
+ * @link       http://motivast.com
  * @since      1.0.0
  *
  * @package    Acf_Helper
@@ -24,7 +24,7 @@
  * @since      1.0.0
  * @package    Acf_Helper
  * @subpackage Acf_Helper/inc
- * @author     ViewOne <support@viewone.pl>
+ * @author     Motivast <support@motivast.com>
  */
 class Acf_Helper extends ACF_Helper_Container {
 

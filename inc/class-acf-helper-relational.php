@@ -5,7 +5,7 @@
  * This file provide relational ACF helper methods to add programmatically ACF
  * relational fields.
  *
- * @link       http://viewone.pl
+ * @link       http://motivast.com
  * @since      1.0.0
  *
  * @package    Acf_Helper
@@ -21,7 +21,7 @@
  * @since      1.0.0
  * @package    Acf_Helper
  * @subpackage Acf_Helper/inc
- * @author     ViewOne <support@viewone.pl>
+ * @author     Motivast <support@motivast.com>
  */
 class Acf_Helper_Relational {
 

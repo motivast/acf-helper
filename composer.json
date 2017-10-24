@@ -1,12 +1,12 @@
 {
-    "name": "viewone/acf-helper",
+    "name": "motivast/acf-helper",
     "description": "ACF helper plugin provide helper acf functions to add programmatically acf fields.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0+",
     "authors": [
         {
-            "name": "ViewOne Sp. z o.o.",
-            "email": "support@viewone.pl"
+            "name": "Motivast",
+            "email": "support@motivast.com"
         }
     ],
     "repositories": [

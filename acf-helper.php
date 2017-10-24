@@ -7,7 +7,7 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://viewone.pl
+ * @link              http://motivast.com
  * @since             1.0.0
  * @package           Acf_Helper
  *
@@ -16,8 +16,8 @@
  * Plugin URI:        acf-helper
  * Description:       ACF Helper plugin provide helper functions to add acf fields programmatically.
  * Version:           1.0.0
- * Author:            ViewOne
- * Author URI:        http://viewone.pl
+ * Author:            Motivast
+ * Author URI:        http://motivast.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       acf-helper

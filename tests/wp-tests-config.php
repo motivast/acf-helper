@@ -5,7 +5,7 @@
  * The wp-tests-config.php creation script uses this file during the
  * tests.
  *
- * @link       http://viewone.pl
+ * @link       http://motivast.com
  * @since      1.0.0
  *
  * @package    Acf_Helper

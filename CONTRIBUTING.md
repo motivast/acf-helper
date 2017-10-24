@@ -6,7 +6,7 @@ ACF Helper plugin provide helper functions to add acf fields programmatically.
 
 ### Clone project
 ```
-git clone git@gitlab.dev.viewone.pl:viewone/acf-helper.git
+git clone git@gitlab.dev.motivast.com:motivast/acf-helper.git
 cd acf-helper
 ```
 

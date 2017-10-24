@@ -8,7 +8,7 @@
  *
  * @package    ACFHelper
  * @subpackage ACFHelper/inc
- * @author     ViewOne <support@viewone.pl>
+ * @author     Motivast <support@motivast.com>
  */
 
 /**
@@ -24,7 +24,7 @@
  * @since      1.0.0
  * @package    ACFHelper
  * @subpackage ACFHelper/inc
- * @author     ViewOne <support@viewone.pl>
+ * @author     Motivast <support@motivast.com>
  */
 abstract class ACF_Helper_Container implements ArrayAccess {
 
